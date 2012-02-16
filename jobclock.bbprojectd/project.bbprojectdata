@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>HierarchyData</key>
+	<array>
+		<string>F1F196C5-6004-4E4C-BAAC-AE557F6FFDA8</string>
+	</array>
+	<key>ProjectItems</key>
+	<dict>
+		<key>F1F196C5-6004-4E4C-BAAC-AE557F6FFDA8</key>
+		<dict>
+			<key>ItemData</key>
+			<dict>
+				<key>AliasData</key>
+				<data>
+				AAAAAAFQAAIAAQxNYWNpbnRvc2ggSEQAAAAAAAAAAAAA
+				AAAAAADH/GTDSCsAAAAsyUYIam9iY2xvY2sAAAAAAAAA
+				AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+				AAAAAAAAAAAAAAAAAAAAACzJR8ssubsAAAAAAAAAAP//
+				//8AAAkgAAAAAAAAAAAAAAAAAAAAA3NyYwAAEAAIAADH
+				/MczAAAAEQAIAADLLSo7AAAAAQAMACzJRgAjbjUAAJNT
+				AAIAJU1hY2ludG9zaCBIRDpVc2VyczpkZXZlczpzcmM6
+				am9iY2xvY2sAAA4AEgAIAGoAbwBiAGMAbABvAGMAawAP
+				ABoADABNAGEAYwBpAG4AdABvAHMAaAAgAEgARAASABhV
+				c2Vycy9kZXZlcy9zcmMvam9iY2xvY2sAEwABLwAAFQAC
+				AAz//wAA
+				</data>
+				<key>FileURL</key>
+				<string>file://localhost/Users/deves/src/jobclock/</string>
+				<key>RelativePath</key>
+				<string>./jobclock</string>
+				<key>TypeID</key>
+				<string>_CFileLocator</string>
+				<key>Version</key>
+				<integer>1</integer>
+			</dict>
+			<key>ItemName</key>
+			<string>jobclock</string>
+			<key>ItemType</key>
+			<string>FolderReference</string>
+		</dict>
+	</dict>
+	<key>com.barebones.DocumentFormatVersion</key>
+	<integer>5</integer>
+	<key>com.barebones.DocumentType</key>
+	<string>Project</string>
+</dict>
+</plist>
