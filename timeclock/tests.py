@@ -14,3 +14,11 @@ class SimpleTest(TestCase):
         Tests that 1 + 1 always equals 2.
         """
         self.assertEqual(1 + 1, 2)
+
+# create Worker (Johnhenry)
+# create Job
+# assign Job to customer/account
+# list Workers
+# list Jobs
+# Punch Worker changing to Job
+# Show duration of Worker between changes
