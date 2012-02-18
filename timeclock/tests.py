@@ -6,15 +6,19 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from django.test.client import Client
 
+
+from timeclock.models import Worker
 
 class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
-
+  
+  def test_create_worker(self):
+    jh = Worker(name = 'John Henry')
+    jh.save
+    print 'create!'
+    self.assertEqual(jh.name, 'John Henry')
+    
 # create Worker (Johnhenry)
 # create Job
 # assign Job to customer/account
