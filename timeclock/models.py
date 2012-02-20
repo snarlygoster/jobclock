@@ -7,9 +7,7 @@ class ClockPunch(models.Model):
     """an event with a date-timestamp signifying a Worker changing from one Activity to another"""
 
     timestamp = models.DateTimeField(_('Moment in Time'), blank=False, null=False, auto_now_add=True)
-
     activity = models.ForeignKey('Activity')
-
     worker = models.ForeignKey('Worker')
 
     class Meta:

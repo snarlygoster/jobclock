@@ -4,7 +4,11 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+# Our stuff
+from timeclock.views import TimeclockView
+
 urlpatterns = patterns('',
+    url(r'^$', TimeclockView.as_view(), name='timeclock-view'),
     # Examples:
     # url(r'^$', 'jobclockproj.views.home', name='home'),
     # url(r'^jobclockproj/', include('jobclockproj.foo.urls')),

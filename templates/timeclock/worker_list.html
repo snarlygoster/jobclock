@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Job tracking</title>
+</head>
+<body>
+<ul>
+{% for worker in worker_list %}
+<li>{{ worker.name }}</li>    
+{% endfor %}
+</ul>
+</body>
+</html>
