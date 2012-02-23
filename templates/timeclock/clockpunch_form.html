@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>ClockPunch</title>
+</head>
+<body>
+
+<form method="post">
+{% csrf_token %}
+<p>{{ form.non_field_errors }}</p>
+<table>
+<thead>Job Tracking</thead>
+<tr>
+<th>Who</th><th>What</th>
+<tr>
+<td>{{ form.worker.errors }}</td>
+<td>{{ form.activity.errors }}</td>
+</tr>
+</tr>
+	<tr>
+		<td>	{{ form.worker }}</td>
+		<td>	{{ form.activity }}</td>
+	</tr>
+</table>
+
+	<input type="submit" />
+</form>
+<table>
+<thead>last_ten_punches</thead>
+<tr><td>time</td><td>Who</td><td>What</td></tr>
+{% for punch in last_ten_punches %}
+	<tr>
+		<td>{{ punch.tstamp|date:"M-d h:i A" }}</td>		<td>{{ punch.worker }}</td> <td>{{ punch.job }}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+</body>
+</html>

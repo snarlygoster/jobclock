@@ -5,10 +5,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 # Our stuff
-from timeclock.views import TimeclockView
+from timeclock.views import TimeclockView, ClockPunchView
 
 urlpatterns = patterns('',
-    url(r'^$', TimeclockView.as_view(), name='timeclock-view'),
+    url(r'^$', ClockPunchView.as_view(), name='clockpunch-view'),
     # Examples:
     # url(r'^$', 'jobclockproj.views.home', name='home'),
     # url(r'^jobclockproj/', include('jobclockproj.foo.urls')),
