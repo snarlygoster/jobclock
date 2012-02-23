@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
-from timeclock.models import Worker, ClockPunch, ClockPunchForm
+from timeclock.models import Worker, Activity, ClockPunch, ClockPunchForm
 
 class TimeclockView(ListView):
   model = Worker
@@ -14,6 +14,12 @@ class TimeclockView(ListView):
 class ClockPunchView(CreateView):
   form_class = ClockPunchForm
   template_name = 'timeclock/clockpunch_form.html'
+
+
+  def get_form(self, form_class):
+    form = super(ClockPunchView, self).get_form(form_class)
+    form.fields['activity'].queryset = Activity.objects.exclude(job_complete=True)
+    return form
 
   def get_context_data(self, **kwargs):
     context = super(ClockPunchView,self).get_context_data(**kwargs)

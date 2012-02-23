@@ -7,10 +7,10 @@ from django.forms.widgets import RadioSelect
 
 class Worker(models.Model):
     """A person that can book time spent on an Activity, or log an Event"""
-    
-    
+
+
     name = models.CharField(_('name'), max_length=50, unique=True, blank=False, null=False,)
-    
+
 
     class Meta:
         ordering = ['name',]
@@ -26,10 +26,12 @@ class Worker(models.Model):
 
 class Activity(models.Model):
     """Bucket to log work time against"""
-    
+
     ticket = models.CharField(_('ticket'), max_length=40, unique=True, blank=False, null=False)
 
     description = models.CharField(_('Description'), max_length=120, blank=True, null=True)
+
+    job_complete = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['ticket',]
@@ -40,7 +42,7 @@ class Activity(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('')        
+        return ('')
 
 class ClockPunch(models.Model):
     """an event with a date-timestamp signifying a Worker changing from one Activity to another"""
@@ -67,4 +69,3 @@ class ClockPunchForm(ModelForm):
         fields = ('worker', 'activity')
         widgets = {'worker': RadioSelect, 'activity': RadioSelect }
 
-      
