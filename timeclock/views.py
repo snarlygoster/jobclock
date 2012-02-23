@@ -1,4 +1,4 @@
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, CreateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
@@ -9,9 +9,9 @@ from timeclock.models import Worker, ClockPunch, ClockPunchForm
 class TimeclockView(ListView):
   model = Worker
   context_object_name = 'worker_list'
-  
 
-class ClockPunchView(FormView):
+
+class ClockPunchView(CreateView):
   form_class = ClockPunchForm
   template_name = 'timeclock/clockpunch_form.html'
 
@@ -24,11 +24,11 @@ class ClockPunchView(FormView):
 #  success_url = reverse_lazy('clockpunch-view')
   def get_success_url(self):
     return reverse('clockpunch-view')
-    
+
   def form_valid(self,form):
     form.save()
     return HttpResponseRedirect(self.get_success_url())
 
 # def form_invalid(self,form):
-#     return HttpResponseRedirect(self.get_success_url())    
-#       
+#     return HttpResponseRedirect(self.get_success_url())
+#
