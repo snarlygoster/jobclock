@@ -1,0 +1,17 @@
+- model: timeclock.activity
+  pk: 1
+  fields:
+    ticket: Break
+    description: Not working on any Jobs now (lunch, go home)
+
+- model: timeclock.activity
+  pk: 2
+  fields:
+    ticket: Open Shop
+    description: Start the day / No job work started yet
+
+- model: timeclock.activity
+  pk: 3
+  fields:
+    ticket: Close Shop
+    description: Last one out / all work stopped for now
