@@ -13,21 +13,21 @@
 <thead>Job Tracking</thead>
 <tr>
 <th>Who</th><th>What</th>
-<tr>
-<td>{{ form.worker.errors }}</td>
-<td>{{ form.activity.errors }}</td>
-</tr>
 </tr>
 	<tr>
 		<td>	{{ form.worker }}</td>
 		<td>	{{ form.activity }}</td>
 	</tr>
+<tr>
+<th>{{ form.worker.errors }}</th>
+<th>{{ form.activity.errors }}</th>
+</tr>
 </table>
 
 	<input type="submit" />
 </form>
+<hr>
 <table>
-<thead>last_ten_punches</thead>
 <tr><td>time</td><td>Who</td><td>What</td></tr>
 {% for punch in last_ten_punches %}
 	<tr>
