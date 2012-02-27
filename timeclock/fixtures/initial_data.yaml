@@ -1,17 +1,29 @@
-- model: timeclock.activity
+- fields: {name: Alexander}
+  model: timeclock.worker
   pk: 1
-  fields:
-    ticket: Break
-    description: Not working on any Jobs now (lunch, go home)
-
-- model: timeclock.activity
+- fields: {name: Barney}
+  model: timeclock.worker
   pk: 2
-  fields:
-    ticket: Open Shop
-    description: Start the day / No job work started yet
-
-- model: timeclock.activity
+- fields: {name: Clementine}
+  model: timeclock.worker
   pk: 3
-  fields:
-    ticket: Close Shop
-    description: Last one out / all work stopped for now
+- fields: {name: Doug}
+  model: timeclock.worker
+  pk: 4
+- fields: {name: Edmundo}
+  model: timeclock.worker
+  pk: 5
+- fields: {name: Francis}
+  model: timeclock.worker
+  pk: 6
+
+- fields: {description: Not working on any Job, job_complete: false, ticket: Break}
+  model: timeclock.activity
+  pk: 2
+- fields: {description: Everything stopped - last one out, job_complete: false, ticket: Close
+      Shop}
+  model: timeclock.activity
+  pk: 3
+- fields: {description: '', job_complete: false, ticket: Open Shop}
+  model: timeclock.activity
+  pk: 1
