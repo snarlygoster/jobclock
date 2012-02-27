@@ -1,16 +1,21 @@
+{% load crispy_forms_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
 	<title>ClockPunch</title>
-	<style> 
+	<style>
 	* {
 		font-size: xx-large;
 	}
 	</style>
 </head>
 <body>
-
+<hr>
+crispy
+{% crispy form %}
+<hr>
 <form method="post">
 {% csrf_token %}
 <p>{{ form.non_field_errors }}</p>
@@ -20,7 +25,21 @@
 <th>Who</th><th>What</th>
 </tr>
 	<tr>
-		<td>	{{ form.worker }}</td>
+{% comment %}
+	 	<td>
+	{% for choice in form.worker.choices %}
+	    {{ choice }}
+	{% endfor %}</td>
+    <td>
+
+    {% for worker in form.worker %}
+        {{ worker.tag }}{{ worker.choice_label }} '{{ worker.choice }}'<br>
+    {% endfor %}
+    </td>
+
+{% endcomment %}
+
+  	<td>	{{ form.worker }}</td>
 		<td>	{{ form.activity }}</td>
 	</tr>
 <tr>
