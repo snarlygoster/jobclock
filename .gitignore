@@ -7,4 +7,3 @@ db/
 *.bbprojectsettings
 *.pyc
 tags
-static_files/
