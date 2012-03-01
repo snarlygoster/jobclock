@@ -4,6 +4,7 @@ from django.utils.translation import ugettext as _
 from django.forms.widgets import RadioSelect
 
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 
 # Create your models here.
 
@@ -69,7 +70,11 @@ class ClockPunchForm(ModelForm):
 
   def __init__(self, *args, **kwargs):
     self.helper = FormHelper()
+    self.helper.add_input(Submit('submit','Submit'))
+    # initialize
     super(ClockPunchForm, self).__init__(*args, **kwargs)
+    for fieldname in ('worker','activity'):
+      self.fields[fieldname].empty_label = None
 
   class Meta:
     model = ClockPunch

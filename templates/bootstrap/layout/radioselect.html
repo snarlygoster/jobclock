@@ -1,0 +1,8 @@
+<div class="controls" {% if flat_attrs %}{{ flat_attrs|safe }}{% endif %}>
+    {% include 'bootstrap/layout/field_errors_block.html' %}
+    {% for choice in field.field.choices %}
+    <input type="radio" {% if choice.0 in field.value %}checked="checked" {% endif %} name="{{ field.name }}" id="id_{{ field.name }}_{{ forloop.counter }}" value="{{ choice.0 }}">
+    <label class="radio" for="id_{{ field.name}}_{{ forloop.counter}}">{{ choice.1 }}</label>
+    {% endfor %}
+    {% include 'bootstrap/layout/help_text.html' %}
+</div>
