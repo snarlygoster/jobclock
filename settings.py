@@ -10,7 +10,11 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-
+# import logging
+# logging.basicConfig(
+#     level = logging.DEBUG,
+#     format = '%(asctime)s %(levelname)s %(message)s',
+# )
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
