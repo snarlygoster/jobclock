@@ -35,9 +35,6 @@ class ClockPunchView(CreateView):
     form.save()
     return HttpResponseRedirect(self.get_success_url())
 
-
-#   def form_invalid(self,form):
-#     import logging
-#     logging.debug('form invalid')
-#     logging.debug(form.request.raw_post_data)
+# def form_invalid(self,form):
 #     return HttpResponseRedirect(self.get_success_url())
+#
