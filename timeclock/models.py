@@ -37,6 +37,8 @@ class Activity(models.Model):
 
     job_complete = models.BooleanField(default=False)
 
+    on_work_queue = models.BooleanField(default=False)
+
     class Meta:
         ordering = ['ticket',]
         verbose_name, verbose_name_plural = "Job", "Jobs"

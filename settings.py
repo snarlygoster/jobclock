@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'crispy_forms',
     'timeclock',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
