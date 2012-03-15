@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.forms import ModelForm
 from django.utils.translation import ugettext as _
@@ -35,10 +37,17 @@ class Activity(models.Model):
 
     description = models.CharField(_('Description'), max_length=120, blank=True, null=True)
 
-    job_complete = models.BooleanField(default=False)
+    job_complete = models.BooleanField(_('Job Complete?'),default=False)
 
-    on_work_queue = models.BooleanField(default=False)
+    on_work_queue = models.BooleanField(_('On Work Queue?'),default=False)
 
+    def save(self, *args, **kwargs):
+      if not self.ticket:
+        ticket_prefix = datetime.datetime.now().strftime("%Y-%m") 
+        ticket_sequence = "-%04d" % (len(Activity.objects.filter(ticket__startswith=ticket_prefix)) + 1)
+        self.ticket = ticket_prefix + ticket_sequence
+      super(Activity, self).save(*args, **kwargs)
+      
     class Meta:
         ordering = ['ticket',]
         verbose_name, verbose_name_plural = "Job", "Jobs"
