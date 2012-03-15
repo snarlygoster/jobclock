@@ -1,22 +1,23 @@
+# python lib
 import datetime
 
+# django lib
 from django.db import models
 from django.forms import ModelForm
 from django.utils.translation import ugettext as _
 from django.forms.widgets import RadioSelect
 
+# third party lib
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-# Create your models here.
-
-
+#####
+##### Application Models
+#####
 class Worker(models.Model):
     """A person that can book time spent on an Activity, or log an Event"""
 
-
     name = models.CharField(_('name'), max_length=50, unique=True, blank=False, null=False,)
-
 
     class Meta:
         ordering = ['name',]
@@ -29,25 +30,21 @@ class Worker(models.Model):
     def get_absolute_url(self):
         return ('')
 
-
 class Activity(models.Model):
     """Bucket to log work time against"""
 
     ticket = models.CharField(_('ticket'), max_length=40, unique=True, blank=False, null=False)
-
     description = models.CharField(_('Description'), max_length=120, blank=True, null=True)
-
     job_complete = models.BooleanField(_('Job Complete?'),default=False)
-
     on_work_queue = models.BooleanField(_('On Work Queue?'),default=False)
 
     def save(self, *args, **kwargs):
       if not self.ticket:
-        ticket_prefix = datetime.datetime.now().strftime("%Y-%m") 
+        ticket_prefix = datetime.datetime.now().strftime("%Y-%m")
         ticket_sequence = "-%04d" % (len(Activity.objects.filter(ticket__startswith=ticket_prefix)) + 1)
         self.ticket = ticket_prefix + ticket_sequence
       super(Activity, self).save(*args, **kwargs)
-      
+
     class Meta:
         ordering = ['ticket',]
         verbose_name, verbose_name_plural = "Job", "Jobs"
