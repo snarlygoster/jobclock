@@ -18,7 +18,7 @@ class ClockPunchView(CreateView):
 
   def get_form(self, form_class):
     form = super(ClockPunchView, self).get_form(form_class)
-    form.fields['activity'].queryset = Activity.objects.include(on_work_queue=True)
+    form.fields['activity'].queryset = Activity.objects.filter(on_work_queue=True)
     return form
 
   def get_context_data(self, **kwargs):
