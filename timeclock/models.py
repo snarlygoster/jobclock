@@ -6,8 +6,6 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils.translation import ugettext as _
 from django.forms.widgets import RadioSelect
-from django.contrib.localflavor.us.models import PhoneNumberField
-from django.contrib.localflavor.us.forms import USPhoneNumberField
 
 # third party lib
 from crispy_forms.helper import FormHelper
