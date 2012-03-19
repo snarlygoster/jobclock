@@ -17,13 +17,13 @@
   model: timeclock.worker
   pk: 6
 
-- fields: {description: Not working on any Job, job_complete: false, ticket: Break}
+- fields: {description: '', job_complete: false, ticket: Break, on_work_queue: true}
   model: timeclock.activity
   pk: 2
-- fields: {description: Everything stopped - last one out, job_complete: false, ticket: Close
-      Shop}
+- fields: {description: '', job_complete: false, ticket: Close
+      Shop, on_work_queue: true}
   model: timeclock.activity
   pk: 3
-- fields: {description: '', job_complete: false, ticket: Open Shop}
+- fields: {description: '', job_complete: false, ticket: Open Shop, on_work_queue: true}
   model: timeclock.activity
   pk: 1
