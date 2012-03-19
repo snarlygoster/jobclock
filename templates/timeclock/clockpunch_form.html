@@ -21,6 +21,15 @@
 		div.control-group + div.control-group {
 		  float: none;
 		}
+		div.form-actions{
+		  float: right;
+		}
+
+		input[type=submit] {
+			padding-right: 10ex;
+			padding-left: 10ex;
+		}
+
 		table, hr, div.form-actions {
 			clear: both;
 		}
@@ -29,7 +38,7 @@
 	$(function() {
 		$( "div.controls" ).buttonsetv();
 		$( "label.requiredField" ).addClass("ui-widget-header");
-		$( "input:submit" ).button();
+ 		$( "input:submit" ).button();
 	});
 	</script>
 
@@ -51,7 +60,7 @@
 	{% endfor %}
 </table>
 
-  <script>  
+  <script>
     $(document).bind("mobileinit", function(){
       $.mobile.ajax.enabled = false;
     });
