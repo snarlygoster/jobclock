@@ -30,19 +30,22 @@ class Worker(models.Model):
     def get_absolute_url(self):
         return ('')
 
+def get_next_ticket():
+  ticket_prefix = datetime.datetime.now().strftime("%Y-%m")
+  ticket_sequence = "-%04d" % (len(Activity.objects.filter(ticket__startswith=ticket_prefix)) + 1)
+  return ticket_prefix + ticket_sequence
+
 class Activity(models.Model):
     """Bucket to log work time against"""
 
-    ticket = models.CharField(_('ticket'), max_length=40, unique=True, blank=False, null=False)
+    ticket = models.CharField(_('ticket'), max_length=40, unique=True, blank=False, null=False, default=get_next_ticket)
     description = models.CharField(_('Description'), max_length=120, blank=True, null=True)
     job_complete = models.BooleanField(_('Job Complete?'),default=False)
     on_work_queue = models.BooleanField(_('On Work Queue?'),default=False)
 
     def save(self, *args, **kwargs):
       if not self.ticket:
-        ticket_prefix = datetime.datetime.now().strftime("%Y-%m")
-        ticket_sequence = "-%04d" % (len(Activity.objects.filter(ticket__startswith=ticket_prefix)) + 1)
-        self.ticket = ticket_prefix + ticket_sequence
+        self.ticket = get_next_ticket()
       super(Activity, self).save(*args, **kwargs)
 
     class Meta:
