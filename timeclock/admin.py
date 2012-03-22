@@ -10,8 +10,16 @@ class ActivityAdmin(admin.ModelAdmin):
     #save_as = True
     save_on_top = True
     #inlines = [<#...#>]
+
+
+class WorkerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'can_work')
+    list_editable = ( 'can_work',)
+    list_filter = ('can_work',)
+     
+    save_as = True
+    save_on_top = True
  
- 
+admin.site.register(Worker, WorkerAdmin) 
 admin.site.register(ClockPunch)
-admin.site.register(Worker)
 admin.site.register(Activity, ActivityAdmin)

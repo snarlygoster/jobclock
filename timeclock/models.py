@@ -18,6 +18,7 @@ class Worker(models.Model):
     """A person that can book time spent on an Activity, or log an Event"""
 
     name = models.CharField(_('name'), max_length=50, unique=True, blank=False, null=False,)
+    can_work = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['name',]
