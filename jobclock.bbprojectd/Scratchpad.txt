@@ -44,4 +44,28 @@ http://www.b-list.org/weblog/2007/nov/04/working-models/
     or estimate is closed (no job).
   job collects clock punches until complete.
   bindery manager marks job as complete, system moves job data to next report and archive.
-  
+ 
+ 
+ dates = ClockPunch.objects.dates('timestamp','day')
+ >>> import datetime
+>>> dates[6] + datetime.timedelta(1)
+datetime.datetime(2012, 3, 31, 0, 0)
+>>> dates[6] + datetime.timedelta(2)
+datetime.datetime(2012, 4, 1, 0, 0)
+>>> 
+>>> for day in dates:
+...   print "%s - %d " % (day , ClockPunch.objects.filter(timestamp__range=(day, day + datetime.timedelta(1))).count())
+
+
+import datetime
+dates[6] + datetime.timedelta(1)
+dates[6] + datetime.timedelta(2)
+
+dates = ClockPunch.objects.dates('timestamp','day')
+
+for day in dates:
+  print day
+  for punch in ClockPunch.objects.filter(timestamp__range=(day,day + datetime.timedelta(1))).order_by('timestamp'):
+    print punch
+exit()
+ 
