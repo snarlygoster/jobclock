@@ -14,11 +14,15 @@ class Command(BaseCommand):
       break_event = Activity.objects.get(ticket="Break")
       dates = ClockPunch.objects.dates('timestamp','day')
       print break_event.pk
+      punches = ClockPunch.objects.all().order_by('timestamp')
+      print punches.count()
+      for punch in punches:
+        self.stdout.write("   %s %s \t %3s: %s\n" % (punch.timestamp.strftime("%m/%d %H:%M"), punch.worker, punch.activity.pk, punch.activity))
 
 #       for day in dates:
 #         print day
 #         for punch in ClockPunch.objects.filter(timestamp__range=(day,day + datetime.timedelta(1))).order_by('timestamp'):
-#           print "    %s %s \t %3s: %s" % (punch.timestamp.strftime("%H:%M"), punch.worker, punch.activity.pk, punch.activity)
+#           print "    %s %s \t %3s: %s\n" % (punch.timestamp.strftime("%H:%M"), punch.worker, punch.activity.pk, punch.activity)
 
 
 #         for poll_id in args:
