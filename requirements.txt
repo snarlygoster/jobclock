@@ -3,5 +3,10 @@ PyYAML==3.10
 South==0.7.3
 Werkzeug==0.8.3
 django-crispy-forms==1.1.1
+django-dbbackup==1.62
 django-extensions==0.7.1
+dropbox==1.4
+oauth==1.0.1
+simplejson==2.5.0
+simples3==1.0
 wsgiref==0.1.2

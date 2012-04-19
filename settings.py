@@ -32,6 +32,9 @@ DATABASES = {
         'PORT': '',
     }
 }
+#dbbackup settings
+DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'
+DBBACKUP_FILESYSTEM_DIRECTORY = os.path.join(SITE_ROOT, 'db')  #'<local_directory_path>'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -131,6 +134,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'crispy_forms',
     'timeclock',
+    'dbbackup',
     'south',
 )
 
