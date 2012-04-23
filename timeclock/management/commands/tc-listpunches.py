@@ -15,7 +15,13 @@ class Command(BaseCommand):
 
     def post_activity_change(self, punch):
       duration = punch.timestamp - self.scoreboard[punch.worker]['start']
-      self.work_periods[punch.activity].append((punch.worker,duration))
+      self.work_periods[self.scoreboard[punch.worker]["job"]].append((punch.worker,duration))
+
+    def close_all_sessions(self, timestamp):
+      for worker in self.scoreboard.keys():
+        duration = timestamp - self.scoreboard[worker]['start']
+        self.work_periods[self.scoreboard[worker]['job']].append((worker, duration))
+        del self.scoreboard[worker]
 
     def handle(self, *args, **options):
 
@@ -31,7 +37,7 @@ class Command(BaseCommand):
         if punch.activity == open_event:
           pass
         elif punch.activity == close_event:
-          pass
+          self.close_all_sessions(punch.timestamp)
         elif punch.activity == break_event:
           if punch.worker not in self.scoreboard:
             pass
@@ -47,8 +53,12 @@ class Command(BaseCommand):
       pp = pprint.PrettyPrinter(indent=4,stream=self.stdout,depth=3)
       for job, work_sessions in self.work_periods.iteritems():
         pp.pprint(job)
-        pp.pprint(work_sessions)
-        
+        session_total = datetime.timedelta(0)
+        for session in work_sessions:
+          print "\t %s \t %s" % (str(session[1]), session[0])
+          session_total = session_total + session[1]
+        print "Total: %s" % session_total
+
 #       for job, work_session in self.work_periods.iteritems():
 #         self.stdout.write("%s - %s \n" % (job, [str(duration) for duration in self.work_periods[job] ]) )
 
