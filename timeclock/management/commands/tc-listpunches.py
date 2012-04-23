@@ -1,4 +1,5 @@
 import datetime
+import pprint
 from collections import defaultdict
 
 from django.core.management.base import BaseCommand, CommandError
@@ -9,29 +10,47 @@ from timeclock.models import ClockPunch, Activity
 class Command(BaseCommand):
     args = '<>'
     help = 'List ClockPunches'
+    scoreboard = {}
+    work_periods = defaultdict(list)
+
+    def post_activity_change(self, punch):
+      duration = punch.timestamp - self.scoreboard[punch.worker]['start']
+      self.work_periods[punch.activity].append((punch.worker,duration))
 
     def handle(self, *args, **options):
 
       break_event = Activity.objects.get(ticket="Break")
+      open_event = Activity.objects.get(ticket="Open Shop")
+      close_event = Activity.objects.get(ticket="Close Shop")
+
       dates = ClockPunch.objects.dates('timestamp','day')
       print break_event.pk
       punches = ClockPunch.objects.all().order_by('timestamp')
       print punches.count()
-      scoreboard = {}
-      work_periods = defaultdict(list)
       for punch in punches:
-        if punch.worker not in scoreboard:
-          scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
-        else:
-          duration = punch.timestamp - scoreboard[punch.worker]['start']
-          work_periods[punch.activity].append(duration)
-          if punch.activity == break_event:
-            del scoreboard[punch.worker]
+        if punch.activity == open_event:
+          pass
+        elif punch.activity == close_event:
+          pass
+        elif punch.activity == break_event:
+          if punch.worker not in self.scoreboard:
+            pass
           else:
-            scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
+            self.post_activity_change(punch)
+            del self.scoreboard[punch.worker]
+        elif punch.worker not in self.scoreboard:
+          self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
+        else:
+          self.post_activity_change(punch)
+          self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
 
-      for job, durations in work_periods.iteritems():
-        self.stdout.write("%s - %s \n" % (job, [str(duration) for duration in work_periods[job] ] ) )
+      pp = pprint.PrettyPrinter(indent=4,stream=self.stdout,depth=3)
+      for job, work_sessions in self.work_periods.iteritems():
+        pp.pprint(job)
+        pp.pprint(work_sessions)
+        
+#       for job, work_session in self.work_periods.iteritems():
+#         self.stdout.write("%s - %s \n" % (job, [str(duration) for duration in self.work_periods[job] ]) )
 
         #self.stdout.write("   %s %s \t %3s: %s\n" % (punch.timestamp.strftime("%m/%d %H:%M"), punch.worker, punch.activity.pk, punch.activity))
 
