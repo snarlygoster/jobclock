@@ -1,5 +1,7 @@
 import datetime
 import pprint
+import csv
+
 from collections import defaultdict
 
 from django.core.management.base import BaseCommand, CommandError
@@ -50,15 +52,30 @@ class Command(BaseCommand):
           self.post_activity_change(punch)
           self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
 
-      pp = pprint.PrettyPrinter(indent=4,stream=self.stdout,depth=3)
+      summary_file = open('summary.csv', 'wb' )
+      summary_report = csv.writer(summary_file)
       for job, work_sessions in self.work_periods.iteritems():
-        pp.pprint(job)
         session_total = datetime.timedelta(0)
         for session in work_sessions:
-          print "\t %s \t %s" % (str(session[1]), session[0])
           session_total = session_total + session[1]
-        print "Total: %s" % session_total
+        session_total_seconds = (session_total.days * 24 * 60 * 60) + session_total.seconds
+        hours,remainder = divmod(session_total_seconds,3600)
+        minutes, seconds = divmod(remainder, 60)
+        job_time = "%2d:%02d" % (hours, minutes)
+        summary_report.writerow([job.ticket, job.description, job.job_complete, job_time])
 
+#         if job.job_complete:
+#           done = 'Complete'
+#         else:
+#           done = ''
+#         print "%s - %s - %s" % (job.ticket, job.description, done)
+#         session_total = datetime.timedelta(0)
+#         for session in work_sessions:
+#           print "\t %s \t %s" % (':'.join(str(session[1]).split(':')[:2]), session[0])
+#           session_total = session_total + session[1]
+#         print "Total: %s" % ':'.join(str(session_total).split(":")[:2])
+
+# ':'.join(str(td).split(':')[:2])
 #       for job, work_session in self.work_periods.iteritems():
 #         self.stdout.write("%s - %s \n" % (job, [str(duration) for duration in self.work_periods[job] ]) )
 
