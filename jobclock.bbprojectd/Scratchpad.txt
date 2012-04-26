@@ -69,3 +69,11 @@ for day in dates:
     print punch
 exit()
  
+ 
+# format timedelta
+':'.join(str(td).split(':')[:2])
+
+
+hours, remainder = divmod(s, 3600)
+minutes, seconds = divmod(remainder, 60)
+print '%s:%s:%s' % (hours, minutes, seconds)
