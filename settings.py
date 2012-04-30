@@ -5,7 +5,7 @@ import django
 # used as starting points for various other paths
 # DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-BITNAMI_ROOT = os.path.realpath(os.path.relpath('../../../..',SITE_ROOT))
+BITNAMI_ROOT = os.path.realpath('C:/Program Files/BitNami DjangoStack/')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -25,7 +25,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(SITE_ROOT, 'db') + '/development.db',
+        'NAME': os.path.join(SITE_ROOT, 'db', 'development.db'),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
