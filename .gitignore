@@ -2,9 +2,11 @@ bin/
 include/
 lib/
 db/
+Scripts/
 .Python
 .DS_Store
 *.bbprojectsettings
 *.pyc
 tags
 summary.csv
+jobclock.tws
