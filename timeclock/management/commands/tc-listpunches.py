@@ -2,56 +2,19 @@ import datetime
 import pprint
 import csv
 
-from collections import defaultdict
 
 from django.core.management.base import BaseCommand, CommandError
 
 from timeclock.models import ClockPunch, Activity
-
+from timeclock.views import ClockPunchMatches
 
 class Command(BaseCommand):
     args = '<>'
     help = 'List ClockPunches'
-    scoreboard = {}
-    work_periods = defaultdict(list)
-
-    def post_activity_change(self, punch):
-      duration = punch.timestamp - self.scoreboard[punch.worker]['start']
-      self.work_periods[self.scoreboard[punch.worker]["job"]].append((punch.worker,duration))
-
-    def close_all_sessions(self, timestamp):
-      for worker in self.scoreboard.keys():
-        duration = timestamp - self.scoreboard[worker]['start']
-        self.work_periods[self.scoreboard[worker]['job']].append((worker, duration))
-        del self.scoreboard[worker]
+    work_periods = ClockPunchMatches().work_periods
 
     def handle(self, *args, **options):
-
-      break_event = Activity.objects.get(ticket="Break")
-      open_event = Activity.objects.get(ticket="Open Shop")
-      close_event = Activity.objects.get(ticket="Close Shop")
-
-      dates = ClockPunch.objects.dates('timestamp','day')
-      print break_event.pk
-      punches = ClockPunch.objects.all().order_by('timestamp')
-      print punches.count()
-      for punch in punches:
-        if punch.activity == open_event:
-          pass
-        elif punch.activity == close_event:
-          self.close_all_sessions(punch.timestamp)
-        elif punch.activity == break_event:
-          if punch.worker not in self.scoreboard:
-            pass
-          else:
-            self.post_activity_change(punch)
-            del self.scoreboard[punch.worker]
-        elif punch.worker not in self.scoreboard:
-          self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
-        else:
-          self.post_activity_change(punch)
-          self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
-
+    
       summary_file = open('summary.csv', 'wb' )
       summary_report = csv.writer(summary_file)
       for job, work_sessions in self.work_periods.iteritems():
