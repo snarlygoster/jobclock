@@ -92,3 +92,22 @@ class ClockPunchForm(ModelForm):
     fields = ('worker', 'activity')
     widgets = {'worker': RadioSelect, 'activity': RadioSelect }
 
+
+class WorkPeriod(models.Model):
+    """a span of time when work on a job is done by a Worker"""
+
+    worker = models.ForeignKey(Worker)
+    job = models.ForeignKey(Activity)
+
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+
+    class Meta:
+        ordering = ['start_time',]
+
+    def __unicode__(self):
+        return "%s - %s" % (self.worker, self.start_time)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('')

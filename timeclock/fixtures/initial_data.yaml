@@ -24,6 +24,3 @@
       Shop, on_work_queue: true}
   model: timeclock.activity
   pk: 3
-- fields: {description: '', job_complete: false, ticket: Open Shop, on_work_queue: true}
-  model: timeclock.activity
-  pk: 1
