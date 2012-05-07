@@ -136,17 +136,37 @@ class ClockPunchMatches():
 class WorkPeriod(models.Model):
     """a span of time when work on a job is done by a Worker"""
 
-    worker = models.ForeignKey(Worker)
-    job = models.ForeignKey(Activity)
 
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_punch = models.ForeignKey(ClockPunch, related_name='workperiod_start_punch', unique=True)
+    end_punch = models.ForeignKey(ClockPunch, related_name='workperiod_end_punch')
+
+    def _get_worker(self):
+      return self.start_punch.worker
+
+    def _get_job(self):
+      return self.start_punch.activity
+
+    def _get_start_time(self):
+      return self.start_punch.timestamp
+
+    def _get_end_time(self):
+      return self.end_punch.timestamp
+
+    def _get_duration(self):
+      return self.end_time - self.start_time
+
+    worker = property(_get_worker)
+    job = property(_get_job)
+    start_time = property(_get_start_time)
+    end_time = property(_get_end_time)
+    duration = property(_get_duration)
 
     class Meta:
-        ordering = ['start_time',]
+      pass
+      #ordering = ['start_time',]
 
     def __unicode__(self):
-        return "%s - %s" % (self.worker, self.start_time)
+        return "%s - %s %s" % (self.worker, self.start_time, self.job)
 
     @models.permalink
     def get_absolute_url(self):
