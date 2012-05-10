@@ -67,38 +67,54 @@ class ClockPunch(models.Model):
     timestamp = models.DateTimeField(_('Moment in Time'), blank=False, null=False, auto_now_add=True)
     activity = models.ForeignKey(Activity)
     worker = models.ForeignKey(Worker)
+    logged = models.BooleanField(default=False)
+
+
+    def log_start(self, *args, **kwargs):
+      self.log()
+
+    def log_end(self, *args, **kwargs):
+      self.log()
+
+    def log(self, *args, **kwargs):
+      self.logged = True
+      self.save()
 
     def matches(self, *args, **kwargs):
       break_event = Activity.objects.get(ticket="Break")
       open_event = Activity.objects.get(ticket="Open Shop")
       close_event = Activity.objects.get(ticket="Close Shop")
 
-      dates = ClockPunch.objects.dates('timestamp','day')
+      #dates = ClockPunch.objects.dates('timestamp','day')
       punches = ClockPunch.objects.all().order_by('timestamp')
-      
+
       scoreboard = {}
-           
-      
-      
+
+
+
       for punch in punches:
         if punch.activity == open_event:
           pass
         elif punch.activity == close_event:
-          self.close_all_sessions(punch.timestamp)
+          #self.close_all_sessions(punch.timestamp)
+          for worker in scoreboard.keys():
+            wp = WorkPeriod(start_punch = scoreboard[worker]['start'], end_punch=punch)
+            wp.save()
+            del scoreboard[worker]
+
         elif punch.activity == break_event:
-          if punch.worker not in self.scoreboard:
+          if punch.worker not in scoreboard:
             pass
           else:
-            wp = WorkPeriod(start_punch = self.scoreboard[punch.worker]['start'], end_punch=punch)
+            wp = WorkPeriod(start_punch = scoreboard[punch.worker]['start'], end_punch=punch)
             wp.save()
-            del self.scoreboard[punch.worker]
-        elif punch.worker not in self.scoreboard:
-          self.scoreboard[punch.worker] = {"start" : punch}
+            del scoreboard[punch.worker]
+        elif punch.worker not in scoreboard:
+          scoreboard[punch.worker] = {"start" : punch}
         else:
-          wp = WorkPeriod(start_punch = self.scoreboard[punch.worker]['start'], end_punch=punch)
+          wp = WorkPeriod(start_punch = scoreboard[punch.worker]['start'], end_punch=punch)
           wp.save()
-               
-          self.scoreboard[punch.worker] = {"start" : punch}
+          scoreboard[punch.worker] = {"start" : punch}
 
     class Meta:
         ordering = ['-timestamp',]
@@ -193,8 +209,15 @@ class WorkPeriod(models.Model):
     end_time = property(_get_end_time)
     duration = property(_get_duration)
 
+
     ## TODO: add save method to set start-punch as logged
-    
+    def save(self, *args, **kwargs):
+      self.start_punch.log_start()
+      self.end_punch.log_end()
+
+      super(WorkPeriod, self).save(*args, **kwargs)
+
+
     class Meta:
       pass
       #ordering = ['start_time',]
