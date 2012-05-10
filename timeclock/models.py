@@ -86,17 +86,18 @@ class ClockPunch(models.Model):
       close_event = Activity.objects.get(ticket="Close Shop")
 
       #dates = ClockPunch.objects.dates('timestamp','day')
-      punches = ClockPunch.objects.all().order_by('timestamp')
+      #punches = ClockPunch.objects.all().order_by('timestamp')
+      punches = ClockPunch.objects.filter(logged=False).order_by('timestamp')
 
       scoreboard = {}
 
-
-
       for punch in punches:
         if punch.activity == open_event:
-          pass
+          punch.log()
         elif punch.activity == close_event:
-          #self.close_all_sessions(punch.timestamp)
+          if not scoreboard:
+            # a close with nothing open!
+            punch.log()
           for worker in scoreboard.keys():
             wp = WorkPeriod(start_punch = scoreboard[worker]['start'], end_punch=punch)
             wp.save()
@@ -104,7 +105,7 @@ class ClockPunch(models.Model):
 
         elif punch.activity == break_event:
           if punch.worker not in scoreboard:
-            pass
+            punch.log()
           else:
             wp = WorkPeriod(start_punch = scoreboard[punch.worker]['start'], end_punch=punch)
             wp.save()
