@@ -10,12 +10,12 @@
 <body>
 
 <table>
-{% for line in object_list %}
+{% for line in work_periods %}
 	<tr>
 		<td>{{ line.ticket }} </td>
-		<td>{{ line.description }}</td>
-		<td>{{ line.complete }}</td>
-		<td>{{ line.time }}</td>
+		<td>{{ line.worker }}</td>
+		<td>{{ line.job }}</td>
+		<td>{{ line.duration }}</td>
 	</tr>
 {% endfor %}
 </table>

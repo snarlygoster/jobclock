@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 
 # Create your views here.
 
-from timeclock.models import Worker, Activity, ClockPunch, ClockPunchForm, ClockPunchMatches
+from timeclock.models import Worker, Activity, ClockPunch, ClockPunchForm, WorkPeriod
 
 class TimeclockView(ListView):
   model = Worker
@@ -44,24 +44,13 @@ class ClockPunchView(CreateView):
 
 class ClockPunchSums(TemplateView):
   template_name = 'timeclock/clockpunchsums.html'
-  work_periods = ClockPunchMatches().work_periods
-  object_list = []
-  
-  for job, work_sessions in work_periods.iteritems():
-    session_total = datetime.timedelta(0)
-    for session in work_sessions:
-      session_total = session_total + session[1]
-    session_total_seconds = (session_total.days * 24 * 60 * 60) + session_total.seconds
-    hours,remainder = divmod(session_total_seconds,3600)
-    minutes, seconds = divmod(remainder, 60)
-    job_time = "%2d:%02d" % (hours, minutes)
-    object_list.append({'ticket' : job.ticket, 'description' : job.description, 'complete' : job.job_complete, 'time' : job_time})
-  
+  work_periods = WorkPeriod.objects.all()
+
   def get_context_data(self,**kwargs):
     context = super(ClockPunchSums,self).get_context_data(**kwargs)
-    context['object_list'] = self.object_list
+    context['work_periods'] = self.work_periods
     return context
-    
+
 #   def get_context_data(self,**kwargs):
 #     work_periods = ClockPunchMatches().work_periods
 #     context = super(ClockPunchSums,self).get_context_data(**kwargs)
