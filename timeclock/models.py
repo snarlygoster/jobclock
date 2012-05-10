@@ -68,6 +68,38 @@ class ClockPunch(models.Model):
     activity = models.ForeignKey(Activity)
     worker = models.ForeignKey(Worker)
 
+    def matches(self, *args, **kwargs):
+      break_event = Activity.objects.get(ticket="Break")
+      open_event = Activity.objects.get(ticket="Open Shop")
+      close_event = Activity.objects.get(ticket="Close Shop")
+
+      dates = ClockPunch.objects.dates('timestamp','day')
+      punches = ClockPunch.objects.all().order_by('timestamp')
+      
+      scoreboard = {}
+           
+      
+      
+      for punch in punches:
+        if punch.activity == open_event:
+          pass
+        elif punch.activity == close_event:
+          self.close_all_sessions(punch.timestamp)
+        elif punch.activity == break_event:
+          if punch.worker not in self.scoreboard:
+            pass
+          else:
+            wp = WorkPeriod(start_punch = self.scoreboard[punch.worker]['start'], end_punch=punch)
+            wp.save()
+            del self.scoreboard[punch.worker]
+        elif punch.worker not in self.scoreboard:
+          self.scoreboard[punch.worker] = {"start" : punch}
+        else:
+          wp = WorkPeriod(start_punch = self.scoreboard[punch.worker]['start'], end_punch=punch)
+          wp.save()
+               
+          self.scoreboard[punch.worker] = {"start" : punch}
+
     class Meta:
         ordering = ['-timestamp',]
 
@@ -161,6 +193,8 @@ class WorkPeriod(models.Model):
     end_time = property(_get_end_time)
     duration = property(_get_duration)
 
+    ## TODO: add save method to set start-punch as logged
+    
     class Meta:
       pass
       #ordering = ['start_time',]
