@@ -53,16 +53,16 @@ class WorkPeriodView(TemplateView):
   template_name = 'timeclock/work_period_view.html'
   cp = ClockPunch()
   cp.matches()
-  
+
   def _get_work_periods(self, **kwargs):
-    workername = self.kwargs['workername']
-    work_periods = WorkPeriod.objects.filter(start_punch__worker__name=workername)
+    #workername = self.kwargs['workername']
+    work_periods = WorkPeriod.objects.all()
+    #wp_by_worker =
     return work_periods
 
-    
+
   def get_context_data(self, **kwargs):
     context = super(WorkPeriodView, self).get_context_data(**kwargs)
     context['workername'] = self.kwargs['workername']
     context['work_periods'] = self._get_work_periods() #workername=self.kwargs['workername'])
-    return context      
-  
+    return context
