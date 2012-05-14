@@ -8,11 +8,6 @@ from django.http import HttpResponseRedirect
 
 from timeclock.models import Worker, Activity, ClockPunch, ClockPunchForm, WorkPeriod
 
-class TimeclockView(ListView):
-  model = Worker
-  context_object_name = 'worker_list'
-
-
 class ClockPunchView(CreateView):
   form_class = ClockPunchForm
   template_name = 'timeclock/clockpunch_form.html'
@@ -44,6 +39,8 @@ class ClockPunchView(CreateView):
 
 class ClockPunchSums(TemplateView):
   template_name = 'timeclock/clockpunchsums.html'
+  cp = ClockPunch()
+  cp.matches()
   work_periods = WorkPeriod.objects.all()
 
   def get_context_data(self,**kwargs):
@@ -51,8 +48,21 @@ class ClockPunchSums(TemplateView):
     context['work_periods'] = self.work_periods
     return context
 
-#   def get_context_data(self,**kwargs):
-#     work_periods = ClockPunchMatches().work_periods
-#     context = super(ClockPunchSums,self).get_context_data(**kwargs)
-#     context['work_periods'] = work_periods
-#     return context
+
+class WorkPeriodView(TemplateView):
+  template_name = 'timeclock/work_period_view.html'
+  cp = ClockPunch()
+  cp.matches()
+  
+  def _get_work_periods(self, **kwargs):
+    workername = self.kwargs['workername']
+    work_periods = WorkPeriod.objects.filter(start_punch__worker__name=workername)
+    return work_periods
+
+    
+  def get_context_data(self, **kwargs):
+    context = super(WorkPeriodView, self).get_context_data(**kwargs)
+    context['workername'] = self.kwargs['workername']
+    context['work_periods'] = self._get_work_periods() #workername=self.kwargs['workername'])
+    return context      
+  
