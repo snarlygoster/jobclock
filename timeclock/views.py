@@ -25,9 +25,9 @@ class ClockPunchView(CreateView):
     context['last_ten_punches'] = [ {'worker': p.worker.name, 'job' : p.activity.ticket , 'tstamp': p.timestamp} for p in last_ten_punches ]
     return context
 
-#  success_url = reverse_lazy('clockpunch-view')
+#  success_url = reverse_lazy('clockpunch_view')
   def get_success_url(self):
-    return reverse('clockpunch-view')
+    return reverse('clockpunch_view')
 
   def form_valid(self,form):
     form.save()

@@ -9,16 +9,16 @@
 </head>
 <body>
 
-<table>
-{% for line in work_periods %}
-	<tr>
-		<td>{{ line.ticket }} </td>
-		<td>{{ line.worker }}</td>
-		<td>{{ line.job }}</td>
-		<td>{{ line.duration }}</td>
-	</tr>
-{% endfor %}
-</table>
+  <table>
+  {% for line in work_periods %}
+  <tr>
+    <td>{{ line.ticket }} </td>
+    <td>{{ line.worker }}</td>
+    <td>{{ line.job }}</td>
+    <td>{{ line.duration }}</td>
+  </tr>
+  {% endfor %}
+  </table>
 
 </body>
 </html>
