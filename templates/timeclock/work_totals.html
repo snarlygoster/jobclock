@@ -32,8 +32,16 @@ end date: {{ end_date }}
 
 
 <table>
+<tr><th>Complete</th><th>ticket</th><th>description</th><th>total hours:minutes</th></tr>
 {% for job, total_time in job_total.items %}
 	<tr>
+	  <td>
+	  {% if job.job_complete %}
+	      Done
+	  {% else %}
+	       No
+	  {% endif %}
+	  </td>
 		<td>{{ job.ticket }}</td>
 		<td>{{ job.description }}</td>
 		<td>{{ total_time|timedelta_fmt }}</td>
