@@ -68,12 +68,30 @@ class WorkPeriodView(TemplateView):
     return context
 
 class WorkTotals(TemplateView):
-  template_name='timeclock/work_totals.html'
-  work_periods=WorkPeriod.objects.all()
-  
+  template_name = 'timeclock/work_totals.html'
+
+  def _start_date(self, **kwargs):
+    start_year = int(self.kwargs.get('start_year', 2012))
+    start_month = int(self.kwargs.get('start_month', 01))
+    start_day = int(self.kwargs.get('start_day', 01))
+    return datetime.date(start_year,start_month,start_day)
+
+  def _end_date(self, **kwargs):
+    end_year = int(self.kwargs.get('end_year', datetime.date.today().year))
+    end_month = int(self.kwargs.get('end_month', datetime.date.today().month))
+    end_day = int(self.kwargs.get('end_day', datetime.date.today().day))
+    return datetime.date(end_year, end_month, end_day)
+
+
   def _get_work_periods(self, **kwargs):
-    pass      #### START HERE 
-  
+    start_date = self._start_date()
+    end_date = self._end_date()
+    return WorkPeriod.objects.filter(start_punch__timestamp__range=(start_date,end_date))
+
+  work_periods = property(_get_work_periods)
+
+
+
   def get_context_data(self, **kwargs):
     context = super(WorkTotals, self).get_context_data(**kwargs)
     params = context['params']
@@ -84,12 +102,14 @@ class WorkTotals(TemplateView):
       if wp.worker in worker_total:
         worker_total[wp.worker] = worker_total[wp.worker] + wp.duration
       else:
-        worker_total[wp.worker] = wp.duration 
+        worker_total[wp.worker] = wp.duration
       if wp.job in job_total:
         job_total[wp.job] = job_total[wp.job] + wp.duration
-      else: 
+      else:
         job_total[wp.job] = wp.duration
+    context['start_date'] = self._start_date()
+    context['end_date'] = self._end_date()
+
     context['worker_total'] = worker_total
     context['job_total'] = job_total
     return context
-    

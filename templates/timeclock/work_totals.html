@@ -6,7 +6,8 @@
 <body>
 
 
-<ul>
+{% if params %}
+    <ul>
 
 {% for name,value in params.items %}
    	<li> {{ name }}: {{ value }}</li>
@@ -17,11 +18,16 @@
 {% endfor %}
 
 </ul>
+
+{% else %}
+     <p>no params</p>
+
+{% endif %}
 <h1>Work Totals</h1>
 <h2>By Job</h2>
 
-
-
+start date: {{ start_date }}
+end date: {{ end_date }}
 
 
 <table>
