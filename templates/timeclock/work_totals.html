@@ -1,3 +1,4 @@
+{% load timedelta %}
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -35,7 +36,7 @@ end date: {{ end_date }}
 	<tr>
 		<td>{{ job.ticket }}</td>
 		<td>{{ job.description }}</td>
-		<td>{{ total_time}}</td>
+		<td>{{ total_time|timedelta_fmt }}</td>
 	</tr>
 {% endfor %}
 </table>
@@ -46,7 +47,7 @@ end date: {{ end_date }}
 {% for worker, total_time in worker_total.items %}
     <tr>
     <td>{{ worker.name }}</td>
-    <td>{{ total_time }}</td>
+    <td>{{ total_time|timedelta_fmt }}</td>
     </tr>
 {% endfor %}
 </table>
