@@ -46,13 +46,27 @@ http://www.b-list.org/weblog/2007/nov/04/working-models/
   bindery manager marks job as complete, system moves job data to next report and archive.
  
  
-for wp in wpa:
-...   if wp.worker in total:
-...     total[wp.worker] = total[wp.worker] + wp.duration
+>>> worker_total = {}
+>>> for wp in wpall:
+...   if wp.worker in worker_total:
+...     worker_total[wp.worker] = worker_total[wp.worker] + wp.duration
 ...   else:
-...     total[wp.worker] = wp.duration
+...     worker_total[wp.worker] = wp.duration
 ... 
 
+>>> job_total = {}
+>>> for wp in wpall:
+...   if wp.job in job_total:
+...     job_total[wp.job] = job_total[wp.job] + wp.duration
+...   else:
+...     job_total[wp.job] = wp.duration
+... 
+
+
+
+>>> for jt in job_total:                                              
+...   secs = job_total[jt].seconds + job_total[jt].days * 24 * 3600
+...   "%s - %d:%02d" % (job_total[jt] , secs/3600, secs%3600/60)
 
 
 import datetime

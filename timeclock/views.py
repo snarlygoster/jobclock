@@ -66,3 +66,30 @@ class WorkPeriodView(TemplateView):
     context['workername'] = self.kwargs['workername']
     context['work_periods'] = self._get_work_periods() #workername=self.kwargs['workername'])
     return context
+
+class WorkTotals(TemplateView):
+  template_name='timeclock/work_totals.html'
+  work_periods=WorkPeriod.objects.all()
+  
+  def _get_work_periods(self, **kwargs):
+    pass      #### START HERE 
+  
+  def get_context_data(self, **kwargs):
+    context = super(WorkTotals, self).get_context_data(**kwargs)
+    params = context['params']
+    context['bugs'] = params
+    worker_total = {}
+    job_total = {}
+    for wp in self.work_periods:
+      if wp.worker in worker_total:
+        worker_total[wp.worker] = worker_total[wp.worker] + wp.duration
+      else:
+        worker_total[wp.worker] = wp.duration 
+      if wp.job in job_total:
+        job_total[wp.job] = job_total[wp.job] + wp.duration
+      else: 
+        job_total[wp.job] = wp.duration
+    context['worker_total'] = worker_total
+    context['job_total'] = job_total
+    return context
+    

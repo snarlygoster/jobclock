@@ -1,0 +1,48 @@
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Work Totals</title>
+</head>
+<body>
+
+
+<ul>
+
+{% for name,value in params.items %}
+   	<li> {{ name }}: {{ value }}</li>
+{% endfor %}
+
+{% for name,value in bugs.items %}
+   	<li>bug {{ name }}: {{ value }}</li>
+{% endfor %}
+
+</ul>
+<h1>Work Totals</h1>
+<h2>By Job</h2>
+
+
+
+
+
+<table>
+{% for job, total_time in job_total.items %}
+	<tr>
+		<td>{{ job.ticket }}</td>
+		<td>{{ job.description }}</td>
+		<td>{{ total_time}}</td>
+	</tr>
+{% endfor %}
+</table>
+
+
+<h2>By Person</h2>
+<table>
+{% for worker, total_time in worker_total.items %}
+    <tr>
+    <td>{{ worker.name }}</td>
+    <td>{{ total_time }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
