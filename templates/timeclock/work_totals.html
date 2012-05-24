@@ -30,7 +30,20 @@
 start date: {{ start_date }}
 end date: {{ end_date }}
 
+<ul>
 
+{% for job,details in jobs.items %}
+    	<li>{{job.ticket}} -- {{details.total|timedelta_fmt}}
+    	<ul>
+        
+        {% for wp in details.work_periods %}
+            <li>{{ wp.worker.name }} {{ wp.start_time|date:"M d H:i" }} {{ wp.duration|timedelta_fmt }}</li>
+        {% endfor %}
+    		
+    	</ul>
+{% endfor %}
+	
+</ul>
 <table>
 <tr><th>Complete</th><th>ticket</th><th>description</th><th>total hours:minutes</th></tr>
 {% for job, total_time in job_total.items %}
