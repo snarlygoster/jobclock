@@ -1,0 +1,21 @@
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}css/ui-darkness/jquery-ui-1.8.18.custom.css" />
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PREFIX }}css/3col.css" />
+  <script src="{{ STATIC_PREFIX }}js/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="{{ STATIC_PREFIX }}js/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+  <script src="{{ STATIC_PREFIX }}js/jquery-ui-vertical-buttonset.js"></script>
+{% block head %}{% endblock head %}
+</head>
+<body>
+
+	{% block content %}{% endblock content %}
+
+</body>
+</html>
