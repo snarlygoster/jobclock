@@ -1,11 +1,8 @@
+{% extends 'timeclock/base.html' %}
 {% load timedelta %}
-<html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>Work Totals</title>
-</head>
-<body>
+{% block title %}Work Totals{% endblock title %}
 
+{% block content %}
 
 {% if params %}
     <ul>
@@ -35,14 +32,14 @@ end date: {{ end_date }}
 {% for job,details in jobs.items %}
     	<li>{{job.ticket}} -- {{details.total|timedelta_fmt}}
     	<ul>
-        
+
         {% for wp in details.work_periods %}
             <li>{{ wp.worker.name }} {{ wp.start_time|date:"M d H:i" }} {{ wp.duration|timedelta_fmt }}</li>
         {% endfor %}
-    		
+
     	</ul>
 {% endfor %}
-	
+
 </ul>
 <table>
 <tr><th>Complete</th><th>ticket</th><th>description</th><th>total hours:minutes</th></tr>
@@ -72,5 +69,4 @@ end date: {{ end_date }}
     </tr>
 {% endfor %}
 </table>
-</body>
-</html>
+{% endblock content %}
