@@ -4,23 +4,6 @@
 
 {% block content %}
 
-{% if params %}
-    <ul>
-
-{% for name,value in params.items %}
-   	<li> {{ name }}: {{ value }}</li>
-{% endfor %}
-
-{% for name,value in bugs.items %}
-   	<li>bug {{ name }}: {{ value }}</li>
-{% endfor %}
-
-</ul>
-
-{% else %}
-     <p>no params</p>
-
-{% endif %}
 <h1>Work Totals</h1>
 <h2>By Job</h2>
 
