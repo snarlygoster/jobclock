@@ -45,47 +45,40 @@ http://www.b-list.org/weblog/2007/nov/04/working-models/
   job collects clock punches until complete.
   bindery manager marks job as complete, system moves job data to next report and archive.
  
- 
->>> worker_total = {}
->>> for wp in wpall:
-...   if wp.worker in worker_total:
-...     worker_total[wp.worker] = worker_total[wp.worker] + wp.duration
-...   else:
-...     worker_total[wp.worker] = wp.duration
-... 
-
->>> job_total = {}
->>> for wp in wpall:
-...   if wp.job in job_total:
-...     job_total[wp.job] = job_total[wp.job] + wp.duration
-...   else:
-...     job_total[wp.job] = wp.duration
-... 
+ http://mainelydesign.com/blog/view/jquery-accordion-menu-expanding-ul-menu#null
+$(document).ready( function() {
+    $('div#sideNav li > ul').hide();    //hide all nested ul's
+    $('div#sideNav li > ul li a[class=current]').parents('ul').show().prev('a').addClass('accordionExpanded');  //show the ul if it has a current link in it (current page/section should be shown expanded)
+    $('div#sideNav li:has(ul)').addClass('accordion');  //so we can style plus/minus icons
+    $('div#sideNav li:has(ul) > a').click(function() {
+        $(this).toggleClass('accordionExpanded'); //for CSS bgimage, but only on first a (sub li>a's don't need the class)
+        $(this).next('ul').slideToggle('fast');
+        $(this).parent().siblings('li').children('ul:visible').slideUp('fast')
+            .parent('li').find('a').removeClass('accordionExpanded');
+        return false;
+    });
+});
 
 
 
->>> for jt in job_total:                                              
-...   secs = job_total[jt].seconds + job_total[jt].days * 24 * 3600
-...   "%s - %d:%02d" % (job_total[jt] , secs/3600, secs%3600/60)
-
-
-import datetime
-dates[6] + datetime.timedelta(1)
-dates[6] + datetime.timedelta(2)
-
-dates = ClockPunch.objects.dates('timestamp','day')
-
-for day in dates:
-  print day
-  for punch in ClockPunch.objects.filter(timestamp__range=(day,day + datetime.timedelta(1))).order_by('timestamp'):
-    print punch
-exit()
- 
- 
-# format timedelta
-':'.join(str(td).split(':')[:2])
-
-
-hours, remainder = divmod(s, 3600)
-minutes, seconds = divmod(remainder, 60)
-print '%s:%s:%s' % (hours, minutes, seconds)
+<div id="sideNav">
+<ul>
+<li><a href="/section.php">Section 1</a>
+    <ul>
+    <li><a href="/link.php">Link 1</a></li>
+    <li><a href="/link.php">Link 2</a></li>
+    <li><a href="/link.php">Link 3</a></li>
+    <li><a href="/link.php">Link 4</a></li>
+    </ul>
+</li>
+<li><a href="/section.php">Section 2</a>
+    <ul>
+    <li><a href="/link.php">Link 5</a></li>
+    <li><a href="/link.php">Link 6</a></li>
+    </ul>
+</li>
+<li><a href="/section.php">Section 3</a></li>
+<li><a href="/section.php">Section 4</a></li>
+<li><a href="/section.php">Section 5</a></li>
+</ul>
+</div>

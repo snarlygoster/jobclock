@@ -86,7 +86,7 @@ class WorkTotals(TemplateView):
   def _get_work_periods(self, **kwargs):
     start_date = self._start_date()
     end_date = self._end_date()
-    return WorkPeriod.objects.filter(start_punch__timestamp__range=(start_date,end_date))
+    return WorkPeriod.objects.filter(start_punch__timestamp__range=(start_date,end_date + datetime.timedelta(days=1)))
 
   work_periods = property(_get_work_periods)
 
@@ -98,8 +98,8 @@ class WorkTotals(TemplateView):
         worker[wp.worker]['work_periods'].append(wp)
       else:
         worker[wp.worker] = {'total': wp.duration, 'work_periods': [wp]}
-    return worker   
-      
+    return worker
+
   def _get_job_summary(self, **kwargs):
     job = {}
     for wp in self.work_periods:
@@ -109,7 +109,7 @@ class WorkTotals(TemplateView):
       else:
         job[wp.job] = {'total': wp.duration, 'work_periods': [wp]}
     return job
-     
+
   def get_context_data(self, **kwargs):
     context = super(WorkTotals, self).get_context_data(**kwargs)
     params = context['params']
@@ -130,8 +130,8 @@ class WorkTotals(TemplateView):
 
     context['worker_total'] = worker_total
     context['job_total'] = job_total
-    
+
     context['jobs'] = self._get_job_summary
     context['workers'] = self._get_worker_summary
-    
+
     return context

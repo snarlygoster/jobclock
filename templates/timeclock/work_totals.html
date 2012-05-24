@@ -2,6 +2,24 @@
 {% load timedelta %}
 {% block title %}Work Totals{% endblock title %}
 
+{% block head %}
+<script>
+$(document).ready( function() {
+    $('li > ul').hide();    //hide all nested ul's
+    $('li > ul li a[class=current]').parents('ul').show().prev('a').addClass('accordionExpanded');  //show the ul if it has a current link in it (current page/section should be shown expanded)
+    $('li:has(ul)').addClass('accordion');  //so we can style plus/minus icons
+    $('li:has(ul) > a').click(function() {
+        $(this).toggleClass('accordionExpanded'); //for CSS bgimage, but only on first a (sub li>a's don't need the class)
+        $(this).next('ul').slideToggle('fast');
+        $(this).parent().siblings('li').children('ul:visible').slideUp('fast')
+            .parent('li').find('a').removeClass('accordionExpanded');
+        return false;
+    });
+});
+
+</script>
+{% endblock head %}
+
 {% block content %}
 
 <h1>Work Totals</h1>
@@ -13,43 +31,31 @@ end date: {{ end_date }}
 <ul>
 
 {% for job,details in jobs.items %}
-    	<li>{{job.ticket}} -- {{details.total|timedelta_fmt}}
+    	<li>{{job.ticket}} -- {{details.total|timedelta_fmt}}  <a href="#">{{ details.work_periods|length }}</a>
     	<ul>
 
         {% for wp in details.work_periods %}
-            <li>{{ wp.worker.name }} {{ wp.start_time|date:"M d H:i" }} {{ wp.duration|timedelta_fmt }}</li>
+            <li>{{ wp.worker.name }} | {{ wp.duration|timedelta_fmt }} | {{ wp.start_time|date:"M d H:i" }} </li>
         {% endfor %}
 
     	</ul>
 {% endfor %}
 
 </ul>
-<table>
-<tr><th>Complete</th><th>ticket</th><th>description</th><th>total hours:minutes</th></tr>
-{% for job, total_time in job_total.items %}
-	<tr>
-	  <td>
-	  {% if job.job_complete %}
-	      Done
-	  {% else %}
-	       No
-	  {% endif %}
-	  </td>
-		<td>{{ job.ticket }}</td>
-		<td>{{ job.description }}</td>
-		<td>{{ total_time|timedelta_fmt }}</td>
-	</tr>
-{% endfor %}
-</table>
 
 
 <h2>By Person</h2>
-<table>
-{% for worker, total_time in worker_total.items %}
-    <tr>
-    <td>{{ worker.name }}</td>
-    <td>{{ total_time|timedelta_fmt }}</td>
-    </tr>
+<ul>
+
+{% for worker, details in workers.items %}
+  <li><a href="#">{{ worker.name }} -- {{ details.total|timedelta_fmt }}</a>
+        <ul>
+          {% for wp in details.work_periods  %}
+                    <li>{{ wp.job.ticket }} | {{ wp.duration|timedelta_fmt }} | {{ wp.start_time|date:"M d H:i" }}</li>
+
+          {% endfor %}
+
+      </ul>
 {% endfor %}
-</table>
+</ul>
 {% endblock content %}
