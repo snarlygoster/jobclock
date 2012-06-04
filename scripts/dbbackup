@@ -1,0 +1,21 @@
+#! /usr/bin/env bash
+dbfile=$1
+
+sqlitecmd=$(which sqlite3)
+
+#"${FILE%%.*}"
+# %Y-%m-%d%nTIME: %H:%M:%S"
+dbfilename="$(basename $dbfile)"
+dbdir="$(dirname $dbfile)"
+dbfilenamenoext="${dbfilename%%.*}"
+
+backupfile="$dbfilenamenoext-$(date  +"%Y-%m-%d-%H%M%S").db"
+
+cd $dbdir 
+$sqlitecmd <<SQL
+.backup  $backupfile
+.quit
+SQL
+
+
+#http://www.howtogeek.com/howto/41560/how-to-get-ssh-command-line-access-to-windows-7-using-cygwin/
