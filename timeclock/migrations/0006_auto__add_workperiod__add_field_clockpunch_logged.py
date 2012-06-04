@@ -17,7 +17,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('timeclock', ['WorkPeriod'])
 
         # Adding field 'ClockPunch.logged'
-        db.add_column('timeclock_clockpunch', 'logged', self.gf('django.db.models.fields.BooleanField')(default=False), keep_default=False)
+        db.add_column('timeclock_clockpunch', 'logged', self.gf('django.db.models.fields.BooleanField')(default=0), keep_default=0)
 
 
     def backwards(self, orm):
