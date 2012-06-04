@@ -119,7 +119,8 @@ class ClockPunch(models.Model):
     
     def save(self, *args, **kwargs):
       super(ClockPunch, self).save(*args, **kwargs)
-      self.matches(*args, **kwargs)
+      if not self.logged:
+        self.matches(*args, **kwargs)
       
     class Meta:
         ordering = ['-timestamp',]
