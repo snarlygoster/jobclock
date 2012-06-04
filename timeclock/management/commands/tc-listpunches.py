@@ -3,29 +3,27 @@ import pprint
 import csv
 
 
-from django.core.management.base import BaseCommand, CommandError
-
-from timeclock.models import ClockPunch, Activity
-from timeclock.views import ClockPunchMatches
-
-class Command(BaseCommand):
-    args = '<>'
-    help = 'List ClockPunches'
-    work_periods = ClockPunchMatches().work_periods
-
-    def handle(self, *args, **options):
-    
-      summary_file = open('summary.csv', 'wb' )
-      summary_report = csv.writer(summary_file)
-      for job, work_sessions in self.work_periods.iteritems():
-        session_total = datetime.timedelta(0)
-        for session in work_sessions:
-          session_total = session_total + session[1]
-        session_total_seconds = (session_total.days * 24 * 60 * 60) + session_total.seconds
-        hours,remainder = divmod(session_total_seconds,3600)
-        minutes, seconds = divmod(remainder, 60)
-        job_time = "%2d:%02d" % (hours, minutes)
-        summary_report.writerow([job.ticket, job.description, job.job_complete, job_time])
+# from django.core.management.base import BaseCommand, CommandError
+# 
+# from timeclock.models import ClockPunch, Activity
+# 
+# class Command(BaseCommand):
+#     args = '<>'
+#     help = 'List ClockPunches'
+# 
+#     def handle(self, *args, **options):
+#     
+#       summary_file = open('summary.csv', 'wb' )
+#       summary_report = csv.writer(summary_file)
+#       for job, work_sessions in self.work_periods.iteritems():
+#         session_total = datetime.timedelta(0)
+#         for session in work_sessions:
+#           session_total = session_total + session[1]
+#         session_total_seconds = (session_total.days * 24 * 60 * 60) + session_total.seconds
+#         hours,remainder = divmod(session_total_seconds,3600)
+#         minutes, seconds = divmod(remainder, 60)
+#         job_time = "%2d:%02d" % (hours, minutes)
+#         summary_report.writerow([job.ticket, job.description, job.job_complete, job_time])
 
 #         if job.job_complete:
 #           done = 'Complete'

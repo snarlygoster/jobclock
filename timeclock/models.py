@@ -116,7 +116,11 @@ class ClockPunch(models.Model):
           wp = WorkPeriod(start_punch = scoreboard[punch.worker]['start'], end_punch=punch)
           wp.save()
           scoreboard[punch.worker] = {"start" : punch}
-
+    
+    def save(self, *args, **kwargs):
+      super(ClockPunch, self).save(*args, **kwargs)
+      self.matches(*args, **kwargs)
+      
     class Meta:
         ordering = ['-timestamp',]
 
@@ -142,45 +146,6 @@ class ClockPunchForm(ModelForm):
     fields = ('worker', 'activity')
     widgets = {'worker': RadioSelect, 'activity': RadioSelect }
 
-class ClockPunchMatches():
-    scoreboard = {}
-    work_periods = defaultdict(list)
-
-    def post_activity_change(self, punch):
-      duration = punch.timestamp - self.scoreboard[punch.worker]['start']
-      self.work_periods[self.scoreboard[punch.worker]["job"]].append((punch.worker,duration))
-
-    def close_all_sessions(self, timestamp):
-      for worker in self.scoreboard.keys():
-        duration = timestamp - self.scoreboard[worker]['start']
-        self.work_periods[self.scoreboard[worker]['job']].append((worker, duration))
-        del self.scoreboard[worker]
-
-    def __init__(self, *args, **options):
-
-      break_event = Activity.objects.get(ticket="Break")
-      open_event = Activity.objects.get(ticket="Open Shop")
-      close_event = Activity.objects.get(ticket="Close Shop")
-
-      dates = ClockPunch.objects.dates('timestamp','day')
-      punches = ClockPunch.objects.all().order_by('timestamp')
-
-      for punch in punches:
-        if punch.activity == open_event:
-          pass
-        elif punch.activity == close_event:
-          self.close_all_sessions(punch.timestamp)
-        elif punch.activity == break_event:
-          if punch.worker not in self.scoreboard:
-            pass
-          else:
-            self.post_activity_change(punch)
-            del self.scoreboard[punch.worker]
-        elif punch.worker not in self.scoreboard:
-          self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
-        else:
-          self.post_activity_change(punch)
-          self.scoreboard[punch.worker] = {"start" : punch.timestamp, 'job' : punch.activity}
 
 class WorkPeriod(models.Model):
     """a span of time when work on a job is done by a Worker"""
