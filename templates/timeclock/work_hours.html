@@ -1,6 +1,6 @@
 {% extends 'timeclock/base.html' %}
 {% load timedelta %}
-{% block title %}Work Totals{% endblock title %}
+{% block title %}Work Hours{% endblock title %}
 
 {% block head %}
 <script>
@@ -22,27 +22,10 @@ $(document).ready( function() {
 
 {% block content %}
 
-<h1>Work Totals</h1>
-<h2>By Job</h2>
+<h1>Work Hours</h1>
 
 start date: {{ start_date }}
 end date: {{ end_date }}
-
-<ul>
-
-{% for job,details in jobs.items %}
-    	<li>{{job.ticket}} -- {{details.total|timedelta_fmt}}  <a href="#">{{ details.work_periods|length }}</a>
-    	<ul>
-
-        {% for wp in details.work_periods %}
-            <li>{{ wp.worker.name }} | {{ wp.duration|timedelta_fmt }} | {{ wp.start_time|date:"M d H:i" }} </li>
-        {% endfor %}
-
-    	</ul>
-{% endfor %}
-
-</ul>
-
 
 <h2>By Person</h2>
 <ul>

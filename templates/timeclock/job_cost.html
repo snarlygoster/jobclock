@@ -1,0 +1,44 @@
+{% extends 'timeclock/base.html' %}
+{% load timedelta %}
+{% block title %}Job Cost{% endblock title %}
+
+{% block head %}
+<script>
+$(document).ready( function() {
+    $('tbody.details').toggle();
+    $('tbody.summary a').closest('tbody').click(function(){
+      $(this).next('tbody.details').toggle('fast');
+    })
+});
+
+</script>
+{% endblock head %}
+
+{% block content %}
+
+<h1>Job Costs</h1>
+<table>
+<thead>
+<tr>
+<th>Done?</th><th>Time Total</th><th>Ticket - description</th>
+</tr>
+</thead>
+{% for job,details in jobs.items %}
+<tbody class="summary">
+    <tr>
+    <td>{% if job.job_complete %}Yes{% else %}No{% endif %}</td>
+    <td>{{details.total|timedelta_fmt}}</td>
+    <td><a href="#">+</a> {{ job.ticket }} - {{ job.description }}</td>
+    </tr>
+</tbody>
+<tbody class="details">
+    {% for wp in details.work_periods %}
+    <tr>
+        <td></td><td></td><td>{{ wp.duration|timedelta_fmt }} - {{ wp.worker.name }}</td>
+    </tr>
+    {% endfor %}
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock content %}

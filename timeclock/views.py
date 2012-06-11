@@ -67,8 +67,8 @@ class WorkPeriodView(TemplateView):
     context['work_periods'] = self._get_work_periods() #workername=self.kwargs['workername'])
     return context
 
-class WorkTotals(TemplateView):
-  template_name = 'timeclock/work_totals.html'
+class WorkHours(TemplateView):
+  template_name = 'timeclock/work_hours.html'
 
   def _start_date(self, **kwargs):
     start_year = int(self.kwargs.get('start_year', 2012))
@@ -100,6 +100,19 @@ class WorkTotals(TemplateView):
         worker[wp.worker] = {'total': wp.duration, 'work_periods': [wp]}
     return worker
 
+
+  def get_context_data(self, **kwargs):
+    context = super(WorkHours, self).get_context_data(**kwargs)
+    context['start_date'] = self._start_date()
+    context['end_date'] = self._end_date()
+    context['workers'] = self._get_worker_summary
+
+    return context
+
+class JobCost(TemplateView):
+  template_name = 'timeclock/job_cost.html'
+  work_periods = WorkPeriod.objects.all()
+
   def _get_job_summary(self, **kwargs):
     job = {}
     for wp in self.work_periods:
@@ -111,27 +124,7 @@ class WorkTotals(TemplateView):
     return job
 
   def get_context_data(self, **kwargs):
-    context = super(WorkTotals, self).get_context_data(**kwargs)
-    params = context['params']
-    context['bugs'] = params
-    worker_total = {}
-    job_total = {}
-    for wp in self.work_periods:
-      if wp.worker in worker_total:
-        worker_total[wp.worker] = worker_total[wp.worker] + wp.duration
-      else:
-        worker_total[wp.worker] = wp.duration
-      if wp.job in job_total:
-        job_total[wp.job] = job_total[wp.job] + wp.duration
-      else:
-        job_total[wp.job] = wp.duration
-    context['start_date'] = self._start_date()
-    context['end_date'] = self._end_date()
-
-    context['worker_total'] = worker_total
-    context['job_total'] = job_total
-
+    context = super(JobCost, self).get_context_data(**kwargs)
     context['jobs'] = self._get_job_summary
-    context['workers'] = self._get_worker_summary
 
     return context
