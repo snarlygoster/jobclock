@@ -15,21 +15,21 @@ from django.utils.translation import ugettext as _
 
 
 class Customer(models.Model):
-    """Customer: contact information for a Customer"""
+  """Customer: contact information for a Customer"""
 
-    name = models.CharField(_('name'), max_length=255, blank=False, null=False, help_text="what should we call you?")
-    email = models.EmailField()
-    telephone = PhoneNumberField()
+  name = models.CharField(_('name'), max_length=255, blank=False, null=False, help_text="what should we call you?")
+  email = models.EmailField()
+  telephone = PhoneNumberField()
 
-    class Meta:
-        ordering = ['name',]
+  class Meta:
+    ordering = ['name',]
 
-    def __unicode__(self):
-        return "%s" % (self.name)
+  def __unicode__(self):
+    return "%s" % (self.name)
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('')
+  @models.permalink
+  def get_absolute_url(self):
+    return ('')
 
 JOB_TYPE_CHOICES = (
   ('t1', 'type 1'),
@@ -38,56 +38,55 @@ JOB_TYPE_CHOICES = (
 )
 
 class CustomerForm(ModelForm):
-    telephone = USPhoneNumberField()
+  telephone = USPhoneNumberField()
 
-    class Meta:
-        model = Customer
+  class Meta:
+    model = Customer
 
-class JobDetails(models.Model):
-    """JobDetails: quantity, materials, stamping text and locations etc. for job_complete"""
+class WorkOrderItem(models.Model):
+  """WorkOrderItem: quantity, materials, stamping text and locations etc. for job_complete"""
 
-    number = models.PositiveIntegerField(blank=True, null=True)
-    type = models.CharField(blank=False, max_length=255, choices=JOB_TYPE_CHOICES)
-    notes = models.TextField(blank=True)
+  number = models.PositiveIntegerField(blank=True, null=True)
+  type = models.CharField(blank=False, max_length=255, choices=JOB_TYPE_CHOICES)
+  notes = models.TextField(blank=True)
 
-    class Meta:
-        ordering = ['type',]
-        #verbose_name, verbose_name_plural = "Job details", "Job details"
+  class Meta:
+    ordering = ['type',]
+    #verbose_name, verbose_name_plural = "Work Order Item", "Work Order Items"
 
-    def __unicode__(self):
-        return "%s" % (self.type)
+  def __unicode__(self):
+    return "%s" % (self.type)
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('')
+  @models.permalink
+  def get_absolute_url(self):
+    return ('')
 
 class WorkOrder(models.Model):
-    """WorkOrder: traces a customer's initial inquiry for work to the jobs completion .
+  """WorkOrder: traces a customer's initial inquiry for work to the jobs completion .
 
-        customer fills in estimate questionnaire,
-          provides email address, system returns ticket number
-          no email/contact info, system discards
-        new estimate ticket shows in job management list as "estimate request"
-        work manager reviews job with customer,
-          job is accepted and queued for clockpunch
-          estimate is closed (no job).
-        job collects clock punches until complete.
-        work manager marks job as complete, system moves job data to next report and archive.
+    customer fills in estimate questionnaire,
+      provides email address, system returns ticket number
+      no email/contact info, system discards
+    new estimate ticket shows in job management list as "estimate request"
+    work manager reviews job with customer,
+      job is accepted and queued for clockpunch
+      estimate is closed (no job).
+    job collects clock punches until complete.
+    work manager marks job as complete, system moves job data to next report and archive.
 
-        """
+    """
 
-    initiation_date = models.DateTimeField(_('initiation date'), blank=True, null=True, auto_now_add=True)
-    ticket = models.ForeignKey(Activity)
-    customer = models.ForeignKey(Customer)
-    details = models.ForeignKey(JobDetails)
+  creation_date = models.DateTimeField(_('creation date'), blank=True, null=True, auto_now_add=True)
+  ticket = models.ForeignKey(Activity)
+  customer = models.ForeignKey(Customer)
 
-    class Meta:
-        ordering = ['initiation_date',]
-        verbose_name, verbose_name_plural = "Work Orders", "Work Orders"
+  class Meta:
+    ordering = ['initiation_date',]
+    verbose_name, verbose_name_plural = "Work Orders", "Work Orders"
 
-    def __unicode__(self):
-        return "%s" % (self.ticket)
+  def __unicode__(self):
+    return "%s" % (self.ticket)
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('')
+  @models.permalink
+  def get_absolute_url(self):
+    return ('')
