@@ -1,5 +1,5 @@
 ###TODO:
-
+http://django-testing-docs.readthedocs.org/en/latest/fixtures.html
 sqlite3 /path/to/live.db '.backup /backup/path.db'
 http://stackoverflow.com/questions/953481/restore-a-deleted-file-in-a-git-repo
 http://stackoverflow.com/questions/9449399/scheduling-a-rails-task-to-safely-backup-the-database-file
