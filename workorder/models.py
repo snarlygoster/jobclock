@@ -6,13 +6,14 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils.translation import ugettext as _
 # from django.forms.widgets import RadioSelect
-# from django.contrib.localflavor.us.models import PhoneNumberField
-# from django.contrib.localflavor.us.forms import USPhoneNumberField
+from django.contrib.localflavor.us.models import PhoneNumberField
+from django.contrib.localflavor.us.forms import USPhoneNumberField
 
 # third party lib
 # from crispy_forms.helper import FormHelper
 # from crispy_forms.layout import Submit
 
+from timeclock.models import Activity
 
 class Customer(models.Model):
   """Customer: contact information for a Customer"""
@@ -31,12 +32,6 @@ class Customer(models.Model):
   def get_absolute_url(self):
     return ('')
 
-JOB_TYPE_CHOICES = (
-  ('t1', 'type 1'),
-  ('t2', 'type 2'),
-  ('t3', 'type 3'),
-)
-
 class CustomerForm(ModelForm):
   telephone = USPhoneNumberField()
 
@@ -47,11 +42,11 @@ class WorkOrderItem(models.Model):
   """WorkOrderItem: quantity, materials, stamping text and locations etc. for job_complete"""
 
   number = models.PositiveIntegerField(blank=True, null=True)
-  type = models.CharField(blank=False, max_length=255, choices=JOB_TYPE_CHOICES)
   notes = models.TextField(blank=True)
+  ticket = models.ForeignKey(Activity)
 
   class Meta:
-    ordering = ['type',]
+    ordering = ['number',]
     #verbose_name, verbose_name_plural = "Work Order Item", "Work Order Items"
 
   def __unicode__(self):
@@ -77,11 +72,10 @@ class WorkOrder(models.Model):
     """
 
   creation_date = models.DateTimeField(_('creation date'), blank=True, null=True, auto_now_add=True)
-  ticket = models.ForeignKey(Activity)
   customer = models.ForeignKey(Customer)
 
   class Meta:
-    ordering = ['initiation_date',]
+    ordering = ['creation_date',]
     verbose_name, verbose_name_plural = "Work Orders", "Work Orders"
 
   def __unicode__(self):
