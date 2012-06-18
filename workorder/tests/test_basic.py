@@ -1,4 +1,4 @@
-import unittest
+from django.utils  import unittest
 
 class TestBasic(unittest.TestCase):
   "Basic Tests"
@@ -15,3 +15,8 @@ class TestBasic(unittest.TestCase):
     "this test should fail"
     a = 1
     assert a == 2
+
+class TestForm(unittest.TestCase):
+  def test_two(self):
+    b = 1
+    assert b == 2
