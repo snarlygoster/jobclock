@@ -134,11 +134,15 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_extensions',
     'crispy_forms',
+    'django_nose',
     'timeclock',
     'workorder',
     'dbbackup',
     'south',
 )
+
+# add 'django_nose' to INSTALLED_APPS and set TEST_RUNNER
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
