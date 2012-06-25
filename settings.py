@@ -134,11 +134,12 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_extensions',
     'crispy_forms',
-    'django_nose',
     'timeclock',
-    'workorder',
+    'joborder',
+    #'workorder',
     'dbbackup',
     'south',
+    'django_nose',     # keep nose after south to ensure we use its test command
 )
 
 # add 'django_nose' to INSTALLED_APPS and set TEST_RUNNER
