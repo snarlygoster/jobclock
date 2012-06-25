@@ -1,19 +1,35 @@
 
 from django.test import TestCase
 
-from joborder.models import JobOrder
+from joborder.models import *
 
-class ProductTest(TestCase):
-        
-    def test_can_create_new_joborder(self):
+class JobOrderTest(TestCase):
+    def setUp(self):
+        ss = Product(name='smyth-sewn')
+        ss.save()
+
+    def test_create_new_joborder_and_save(self):
         """
         Create a job order
         """
         joborder = JobOrder()
-        joborder.add_item(JobItem())
-        
-#     def test_add_item_to_joborder(self):
-#         
-#         joborder.add_item()
-#     def test_list_products(self):
-#         productlist = Product.objects.all()
+        joborder.product = Product.objects.get(name='smyth-sewn')
+        joborder.save()
+        # our new joborder should be the only one in test db
+        self.assertEqual(len(JobOrder.objects.all()),1)
+        self.assertEqual(JobOrder.objects.all()[0], joborder)
+
+    def test_pick_symth_sewn_job(self):
+        """
+        Set type of job to smyth-sewn
+        """
+        symthsewn = Product.objects.filter(name='smyth-sewn')
+
+#         joborder = JobOrder()
+#
+#         joborder.product = 'smyth-sewn'
+#         joborder.save()
+#
+#         ss = JobOrder.objects.filter(product = 'smyth-sewn')
+#         self.assertEqual(len(ss), 1)
+
