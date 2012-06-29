@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 # Create your models here.
 
 class Product(models.Model):
-    """Type of binding or object"""
+    """Type of binding or object thing"""
 
     name = models.CharField(_('name'), max_length=50, blank=False, null=False)
 

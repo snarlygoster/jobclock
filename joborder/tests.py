@@ -4,9 +4,10 @@ from django.test import TestCase
 from joborder.models import *
 
 class JobOrderTest(TestCase):
+    """test for joborders"""
     def setUp(self):
-        ss = Product(name='smyth-sewn')
-        ss.save()
+        ss = Product.objects.get_or_create(name='smyth-sewn')
+
 
     def test_create_new_joborder_and_save(self):
         """
