@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul>
+	<li><a href="{% url clockpunch_view %}">Punch Clock</a></li>
+	<li><a href="{% url job_cost_view %}">Job Cost</a></li>
+	<li><a href="{% url admin:timeclock_activity_changelist %}">Job Admin</a></li>
+</ul>
+
+{% endblock content %}
