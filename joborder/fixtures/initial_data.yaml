@@ -1,0 +1,38 @@
+- model: joborder.product
+  pk: 1
+  fields:
+    name: 'Smyth-sewn book'
+- model: joborder.product
+  pk: 2
+  fields:
+    name: '3-ring binder'
+- model: joborder.product
+  pk: 3
+  fields:
+    name: 'Portfolio'
+- model: joborder.product
+  pk: 4
+  fields:
+    name: 'Design Thesis'
+- model: joborder.product
+  pk: 4
+  fields:
+    name: 'Design Thesis'
+- model: joborder.product
+  pk: 5
+  fields:
+    name: 'Clamshells'
+- model: joborder.product
+  pk: 6
+  fields:
+    name: 'Presentation Folder'
+- model: joborder.product
+  pk: 7
+  fields:
+    name: 'Thesis Binding, Side-sewn Book'
+- model: joborder.product
+  pk: 8
+  fields:
+    name: 'Slipcase'
+
+

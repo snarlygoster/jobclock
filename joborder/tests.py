@@ -1,36 +1,45 @@
+from datetime import date
 
 from django.test import TestCase
 
 from joborder.models import *
 
+
 class JobOrderTest(TestCase):
     """test for joborders"""
     def setUp(self):
-        ss = Product.objects.get_or_create(name='smyth-sewn')
+        self.ssproduct = Product.objects.get(name__istartswith='smyth-sewn')
+        self.johndoe = Customer(name='John Doe')
 
+    def test_job_has_quantity(self):
+        """
+        Set quantity of product
+        """
+        joborder = JobOrder(product=self.ssproduct)
 
-    def test_create_new_joborder_and_save(self):
-        """
-        Create a job order
-        """
-        joborder = JobOrder()
-        joborder.product = Product.objects.get(name='smyth-sewn')
+        joborder.quantity = 1
         joborder.save()
-        # our new joborder should be the only one in test db
-        self.assertEqual(len(JobOrder.objects.all()),1)
-        self.assertEqual(JobOrder.objects.all()[0], joborder)
+        self.assertEqual(JobOrder.objects.get(pk=joborder.pk).quantity, 1)
 
-    def test_pick_symth_sewn_job(self):
-        """
-        Set type of job to smyth-sewn
-        """
-        symthsewn = Product.objects.filter(name='smyth-sewn')
+    def test_joborder_has_covermaterial(self):
 
-#         joborder = JobOrder()
-#
-#         joborder.product = 'smyth-sewn'
-#         joborder.save()
-#
-#         ss = JobOrder.objects.filter(product = 'smyth-sewn')
-#         self.assertEqual(len(ss), 1)
+        joborder = JobOrder()
 
+        joborder.product = Product.objects.get(pk=1)
+        joborder.save()
+        self.assertFalse(joborder.covermaterial,'should have covermaterial')
+        joborder.covermaterial = 'Blue Silk'
+        joborder.save()
+        self.assertTrue(joborder.covermaterial,'product should have covermaterial')
+
+    def test_joborder_has_duedate(self):
+
+        joborder = JobOrder(product=self.ssproduct)
+        self.assertIsNone(joborder.duedate,'joborder should have a due date')
+        joborder.duedate = date.today()
+        joborder.save()
+        self.assertIsNotNone(joborder.duedate)
+
+    def test_scheduledjob_has_customer(self):
+        sjo = ScheduledJob()
+        sjo.customer = self.johndoe
