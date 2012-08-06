@@ -2,37 +2,46 @@
   pk: 1
   fields:
     name: 'Smyth-sewn book'
+    detail_spec: ''
 - model: joborder.product
   pk: 2
   fields:
     name: '3-ring binder'
+    detail_spec: ''
 - model: joborder.product
   pk: 3
   fields:
     name: 'Portfolio'
+    detail_spec: ''
 - model: joborder.product
   pk: 4
   fields:
     name: 'Design Thesis'
+    detail_spec: ''
 - model: joborder.product
   pk: 4
   fields:
     name: 'Design Thesis'
+    detail_spec:  ''
 - model: joborder.product
   pk: 5
   fields:
     name: 'Clamshells'
+    detail_spec: ''
 - model: joborder.product
   pk: 6
   fields:
     name: 'Presentation Folder'
+    detail_spec: ''
 - model: joborder.product
   pk: 7
   fields:
     name: 'Thesis Binding, Side-sewn Book'
+    detail_spec: ''
 - model: joborder.product
   pk: 8
   fields:
     name: 'Slipcase'
+    detail_spec: ''
 
 

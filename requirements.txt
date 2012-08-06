@@ -6,6 +6,7 @@ django-crispy-forms==1.1.1
 django-dbbackup==1.62
 django-extensions==0.7.1
 django-nose==1.1
+django-picklefield==0.2.1
 dropbox==1.4
 nose==1.1.2
 nosegrowl2==0.2
