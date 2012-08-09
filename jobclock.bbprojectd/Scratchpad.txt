@@ -4,6 +4,33 @@ sqlite3 /path/to/live.db '.backup /backup/path.db'
 http://stackoverflow.com/questions/953481/restore-a-deleted-file-in-a-git-repo
 http://stackoverflow.com/questions/9449399/scheduling-a-rails-task-to-safely-backup-the-database-file
 
+data = { 'quantity': '4', 'spec_0': "Cover", 'spec_1': 'hi', 'spec_2': 'wide', 'product' : 2}
+df = JobItemForm(data)
+df.is_valid()
+df.errors
+df.spec_answers()
+df.spec_answers()[0]
+df.spec_answers().next
+df.spec_answers().next()
+answers = df.spec_answers()
+answers.next()
+answers = df.spec_answers()
+for a in answers:
+  print a
+answers = df.spec_answers()
+for a in answers:
+  result.append(a)
+result=[]
+answers = df.spec_answers()
+for a in answers:
+  result.append(a)
+result
+for r in result:
+  print r
+for r in result:
+  lable, reply = r
+  print lable
+  print reply
 
 
 

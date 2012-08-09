@@ -72,9 +72,9 @@ class JobItem(models.Model):
         return self.product.detail_spec
 
     def save(self, *args, **kwargs):
-      if not self.detail_answers:
-        self.detail_answers = self._get_product_detail_spec()
-      super(JobItem, self).save(*args, **kwargs)
+        if not self.detail_answers:
+            self.detail_answers = self._get_product_detail_spec()
+        super(JobItem, self).save(*args, **kwargs)
 
     class Meta:
         #ordering = ['id',]
@@ -86,3 +86,5 @@ class JobItem(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('')
+
+
