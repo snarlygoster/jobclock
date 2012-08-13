@@ -1,3 +1,4 @@
+from collections import defaultdict
 # django library imports
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -7,13 +8,13 @@ from picklefield.fields import PickledObjectField
 
 # Create your models here.
 
-specs = [{'q': 'Cover Material', 'a': ''}]
+specs = ['cover material', 'height', 'width']
 
 class Product(models.Model):
     """Type of binding or object thing"""
 
     name = models.CharField(_('name'), max_length=50, blank=False, null=False)
-    detail_spec = PickledObjectField(default=specs)
+    detail_spec = PickledObjectField(default=defaultdict(str))
 #     detail_spec = models.CharField(_('detail specifications'), max_length=1000, default="Cover Material", help_text="questions to answer for this type of product")
 
     class Meta:
@@ -65,7 +66,7 @@ class JobItem(models.Model):
 
     product = models.ForeignKey(Product)
     quantity = models.PositiveIntegerField(blank=True, null=True)
-    detail_answers = PickledObjectField()
+    detail_answers = PickledObjectField(default=defaultdict(str))
 #    detail_answers = models.CharField(_('details'), max_length=1000, help_text="")
 
     def _get_product_detail_spec(self):
