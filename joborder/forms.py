@@ -5,7 +5,6 @@ class JobItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(JobItemForm, self).__init__(*args, **kwargs)
-
         for i, question in enumerate(['Cover Material', 'Height', 'Width']):
             self.fields['spec_%s' % i] = forms.CharField(label=question)
     #def save(self):

@@ -8,13 +8,19 @@ from picklefield.fields import PickledObjectField
 
 # Create your models here.
 
-specs = ['cover material', 'height', 'width']
+default_questions = ['cover material', 'height', 'width']
+default_specs = defaultdict(str)
+
+for question in default_questions:
+    default_specs[question]=''
 
 class Product(models.Model):
     """Type of binding or object thing"""
 
     name = models.CharField(_('name'), max_length=50, blank=False, null=False)
-    detail_spec = PickledObjectField(default=defaultdict(str))
+    detail_questions = PickledObjectField(default=default_questions)
+
+
 #     detail_spec = models.CharField(_('detail specifications'), max_length=1000, default="Cover Material", help_text="questions to answer for this type of product")
 
     class Meta:
