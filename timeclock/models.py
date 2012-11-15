@@ -116,12 +116,12 @@ class ClockPunch(models.Model):
           wp = WorkPeriod(start_punch = scoreboard[punch.worker]['start'], end_punch=punch)
           wp.save()
           scoreboard[punch.worker] = {"start" : punch}
-    
+
     def save(self, *args, **kwargs):
       super(ClockPunch, self).save(*args, **kwargs)
       if not self.logged:
         self.matches(*args, **kwargs)
-      
+
     class Meta:
         ordering = ['-timestamp',]
 
@@ -184,13 +184,35 @@ class WorkPeriod(models.Model):
 
       super(WorkPeriod, self).save(*args, **kwargs)
 
-
     class Meta:
       pass
       #ordering = ['start_time',]
 
     def __unicode__(self):
         return "%s - %s %s" % (self.worker, self.start_time, self.job)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('')
+
+
+class WorkLogEntry(models.Model):
+    """denormalized derived values for WorkPeriods"""
+
+    workperiod = models.ForeignKey(WorkPeriod, unique=True)
+    worker = models.TextField(blank=True)
+    job = models.TextField(blank=True)
+
+    start_time = models.TimeField(blank=True)
+    end_time = models.TimeField(blank=True)
+    timestamp = models.DateTimeField(_('timestamp'), blank=True, null=True, auto_now_add=True)
+
+    class Meta:
+        ordering = ['timestamp',]
+        verbose_name, verbose_name_plural = "WorkLogEntry", "WorkLogEntries"
+
+    def __unicode__(self):
+        return "%s" % (self.timestamp)
 
     @models.permalink
     def get_absolute_url(self):
