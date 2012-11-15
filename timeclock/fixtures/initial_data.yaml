@@ -20,6 +20,9 @@
 - fields: {description: '', job_complete: false, ticket: Break, on_work_queue: true}
   model: timeclock.activity
   pk: 2
+- fields: {description: '', job_complete: false, ticket: Open Shop, on_work_queue: true}
+  model: timeclock.activity
+  pk: 1
 - fields: {description: '', job_complete: false, ticket: Close
       Shop, on_work_queue: true}
   model: timeclock.activity
