@@ -1,7 +1,7 @@
 
 PyYAML==3.10
 South==0.7.3
-Werkzeug==0.8.3
+Werkzeug==0.15.3
 django-crispy-forms==1.1.1
 django-dbbackup==1.62
 django-extensions==0.7.1
